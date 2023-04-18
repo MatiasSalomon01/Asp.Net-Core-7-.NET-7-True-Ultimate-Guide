@@ -1,5 +1,8 @@
-﻿using Infrastructure.Data;
+﻿using Core.Entities.IdentityEntities;
+using Infrastructure.Data;
 using Infrastructure.Migrations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
 using System.Text.Json.Serialization;
@@ -31,6 +34,12 @@ namespace Section25_Identity
             //dotnet ef database update - p.\Infrastructure\ -s.\Section25 - Identity\
             services.AddDbContext<ApplicationDbContext>
                 (options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
+                .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
