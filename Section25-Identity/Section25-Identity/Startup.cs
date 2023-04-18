@@ -1,6 +1,10 @@
 ﻿using Infrastructure.Data;
+using Infrastructure.Migrations;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 using System.Text.Json.Serialization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Section25_Identity
 {
@@ -16,11 +20,13 @@ namespace Section25_Identity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
-                .AddJsonOptions(json => 
-                    json.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
+                .AddJsonOptions(json =>
+                json.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+
+            //dotnet ef migrations add InitialSetup - p.\Infrastructure\ -s.\Section25 - Identity\
+            //dotnet ef database update - p.\Infrastructure\ -s.\Section25 - Identity\
             services.AddDbContext<ApplicationDbContext>
                 (options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
         }
