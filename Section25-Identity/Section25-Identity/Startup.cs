@@ -22,6 +22,8 @@ namespace Section25_Identity
             services.AddControllers()
                 .AddJsonOptions(json =>
                 json.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+            services.AddControllersWithViews();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
@@ -38,6 +40,7 @@ namespace Section25_Identity
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseStaticFiles();
 
             app.UseRouting();
 
