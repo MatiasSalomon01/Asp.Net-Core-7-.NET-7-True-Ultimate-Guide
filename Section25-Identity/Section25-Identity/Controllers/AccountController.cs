@@ -44,7 +44,7 @@ namespace Section25_Identity.Controllers
                 PersonName = registerDTO.Name
             };
 
-            IdentityResult result = await _userManager.CreateAsync(user);
+            IdentityResult result = await _userManager.CreateAsync(user, registerDTO.Password);
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user: user, isPersistent: false);
@@ -58,6 +58,44 @@ namespace Section25_Identity.Controllers
                 }
             }
             return View(registerDTO);
+        }
+
+        [HttpGet]
+        public IActionResult Login() 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Errors = ModelState.Values
+                    .SelectMany(temp => temp.Errors)
+                    .Select(temp => temp.ErrorMessage);
+
+                return View(loginDTO);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(loginDTO.Email, loginDTO.Password, false, false);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("Login", "Invalid email or password");
+            }
+
+            return View(loginDTO);
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }
