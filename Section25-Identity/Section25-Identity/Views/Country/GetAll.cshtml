@@ -1,0 +1,57 @@
+﻿@model List<Country>
+
+@{
+    ViewBag.Title = "Country";
+}
+
+<form asp-controller="Country" asp-action="GetAll" method="get">
+
+    <!-- breadcrumb starts -->
+    <div class="flex">
+        <div class="flex-1">
+            <div class="text-grey">
+                <span>Contacts</span>
+                <i class="fa-solid fa-caret-right"></i>
+                <span class="text-grey">Countries</span>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb endds -->
+
+    <div class="table-container">
+        <div class="flex">
+            <div class="flex-1">
+                <h1>Countries</h1>
+            </div>
+            <div class="flex-3 text-right">
+                <a asp-controller="Country" asp-action="GetAll" class="ml link-hover">Clear all</a>
+            </div>
+        </div>
+
+
+
+        <table class="table w-100 mt persons">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Country country in Model)
+                {
+                    <tr>
+                        <td style="width:10%">@country.Id</td>
+                        <td style="width:20%">@country.Name</td>
+                        
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+</form>
