@@ -1,13 +1,9 @@
 ﻿using Core.Entities.IdentityEntities;
 using Infrastructure.Data;
-using Infrastructure.Migrations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Principal;
 using System.Text.Json.Serialization;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static System.Collections.Specialized.BitVector32;
 
 namespace Section25_Identity
 {
@@ -50,6 +46,8 @@ namespace Section25_Identity
                 app.UseSwaggerUI();
             }
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

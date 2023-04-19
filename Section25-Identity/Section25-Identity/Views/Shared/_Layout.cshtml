@@ -25,18 +25,20 @@
 
                     <div class="flex-1 pr" id="search-box-div">
                         <div class="navbar account-links">
-
                             <ul>
                                 <li>
+                                    @User.Identity.Name
+                                </li>
+                                <li>
                                     <a asp-controller="Account" asp-action="Register">Register</a>
+                                </li>
+                                <li>
                                     <a asp-controller="Account" asp-action="Login">Login</a>
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
-
             </div>
 
 

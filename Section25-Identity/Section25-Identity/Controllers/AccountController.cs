@@ -10,10 +10,12 @@ namespace Section25_Identity.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -45,6 +47,7 @@ namespace Section25_Identity.Controllers
             IdentityResult result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
             {
+                await _signInManager.SignInAsync(user: user, isPersistent: false);
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
             else
