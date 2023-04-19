@@ -31,7 +31,14 @@ namespace Section25_Identity
             services.AddDbContext<ApplicationDbContext>
                 (options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
+                {
+                    opt.Password.RequiredLength = 3;
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Password.RequireLowercase = true;
+                    opt.Password.RequireUppercase = false;
+                    opt.Password.RequireDigit = false;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
                 .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
