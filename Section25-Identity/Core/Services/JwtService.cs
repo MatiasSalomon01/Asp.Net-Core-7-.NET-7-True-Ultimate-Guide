@@ -20,7 +20,7 @@ namespace Core.Services
         }
         public AuthenticationResponse CreateJwt(ApplicationUser user)
         {
-            DateTime expiration = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpirationMinutes"]));
+            DateTime expiration = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpirationMinutes"])); //establecer tiempo de expiracion del token
 
             Claim[] claims = new Claim[]
             {
@@ -29,7 +29,7 @@ namespace Core.Services
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()), //Issued at(date and time token generation)
                 new Claim(ClaimTypes.NameIdentifier, user.Email), //Unique name identifier of the user (email)
                 new Claim(ClaimTypes.Name, user.PersonName), //Name of the user 
-            };
+            }; //Lista de claims del usuario que representa el Id, nombre, email entre otros.
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -40,7 +40,7 @@ namespace Core.Services
                 claims: claims, 
                 expires: expiration, 
                 signingCredentials: signingCredentials
-            );
+            ); //Genera un objeto con dichos datos para la creacion del token
 
             var tokenHandler = new JwtSecurityTokenHandler();
             string token = tokenHandler.WriteToken(tokenGenerator); //creacion de jwt(header, payload, signature)
