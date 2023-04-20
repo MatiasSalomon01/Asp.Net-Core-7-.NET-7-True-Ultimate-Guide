@@ -45,14 +45,16 @@ namespace Section25_Identity
                 .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
                 .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
 
-            services.AddAuthorization(opt =>
+            //services.AddAuthorization(opt =>
+            //{
+            //    opt.FallbackPolicy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
+            //});
+
+            services.ConfigureApplicationCookie(opt =>
             {
-                opt.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            }).ConfigureApplicationCookie(opt =>
-            {
-                opt.LoginPath = "/Account/Login";
+                opt.LoginPath = "/api/Account/Login";
             });
         }
 
@@ -67,11 +69,13 @@ namespace Section25_Identity
 
             app.UseAuthentication();
 
+
             app.UseRouting();
+            
+            app.UseAuthorization();
 
             app.UseHttpsRedirection();
 
-            //app.UseAuthorization();
 
             app.UseEndpoints(endpoint => endpoint.MapControllers());
         }

@@ -8,6 +8,7 @@ namespace Section25_Identity.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class CountryController : Controller
     {
         private readonly ApplicationDbContext context;
