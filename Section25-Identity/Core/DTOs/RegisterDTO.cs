@@ -1,4 +1,5 @@
 ﻿
+using Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.DTOs
@@ -21,5 +22,7 @@ namespace Core.DTOs
 
         [Required(ErrorMessage = "{0} can't be empty")]
         public string ConfirmPassword { get; set; }
+
+        public UserTypeOptions UserType { get; set; } = UserTypeOptions.User;
     }
 }
