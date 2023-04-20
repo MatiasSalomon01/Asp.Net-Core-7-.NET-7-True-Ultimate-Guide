@@ -78,7 +78,6 @@ namespace Section25_Identity
 
             app.UseAuthentication();
 
-
             app.UseRouting();
             
             app.UseAuthorization();
